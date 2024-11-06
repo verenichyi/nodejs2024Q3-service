@@ -9,18 +9,18 @@ export default class DBTracks extends DBEntity<
   UpdateTrackDto,
   CreateTrackDto
 > {
-  constructor() {
-    super();
-    this.entities = [
-      {
-        id: 'b018b96f-0f27-4327-8e06-ca0e4be11c37',
-        name: 'track',
-        artistId: null,
-        albumId: null,
-        duration: 240,
-      },
-    ];
-  }
+  // constructor() {
+  //   super();
+  //   this.entities = [
+  //     {
+  //       id: 'b018b96f-0f27-4327-8e06-ca0e4be11c37',
+  //       name: 'track',
+  //       artistId: null,
+  //       albumId: null,
+  //       duration: 240,
+  //     },
+  //   ];
+  // }
   async create(dto: CreateTrackDto) {
     const created: Track = {
       id: uuid.v4(),

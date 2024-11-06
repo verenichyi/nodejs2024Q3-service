@@ -15,10 +15,16 @@ import { AlbumsService } from './albums.service';
 import Album from './interfaces/album.interface';
 import { UpdateAlbumDto } from './dto/update-album.dto';
 import { CreateAlbumDto } from './dto/create-album.dto';
+import { TracksService } from '../tracks/tracks.service';
+import { FavoritesService } from '../favorites/favorites.service';
 
 @Controller('album')
 export class AlbumsController {
-  constructor(private readonly albumsService: AlbumsService) {}
+  constructor(
+    private readonly albumsService: AlbumsService,
+    private readonly tracksService: TracksService,
+    private readonly favoritesService: FavoritesService,
+  ) {}
   @HttpCode(HttpStatus.OK)
   @Get()
   async getAllAlbums(): Promise<Album[]> {
@@ -28,12 +34,12 @@ export class AlbumsController {
   @HttpCode(HttpStatus.OK)
   @Get(':id')
   async getAlbum(@Param('id', new ParseUUIDPipe()) id: string): Promise<Album> {
-    const artist = await this.albumsService.getAlbum(id);
-    if (!artist) {
-      throw new HttpException(`Artist doesn't exist`, HttpStatus.NOT_FOUND);
+    const album = await this.albumsService.getAlbum(id);
+    if (!album) {
+      throw new HttpException(`Album doesn't exist`, HttpStatus.NOT_FOUND);
     }
 
-    return artist;
+    return album;
   }
 
   @HttpCode(HttpStatus.CREATED)
@@ -48,9 +54,9 @@ export class AlbumsController {
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateAlbumDto: UpdateAlbumDto,
   ): Promise<Album> {
-    const artist = await this.albumsService.getAlbum(id);
-    if (!artist) {
-      throw new HttpException(`Artist doesn't exist`, HttpStatus.NOT_FOUND);
+    const album = await this.albumsService.getAlbum(id);
+    if (!album) {
+      throw new HttpException(`Album doesn't exist`, HttpStatus.NOT_FOUND);
     }
 
     return await this.albumsService.updateAlbum(id, updateAlbumDto);
@@ -61,11 +67,13 @@ export class AlbumsController {
   async deleteAlbum(
     @Param('id', new ParseUUIDPipe()) id: string,
   ): Promise<void> {
-    const artist = await this.albumsService.getAlbum(id);
-    if (!artist) {
-      throw new HttpException(`Artist doesn't exist`, HttpStatus.NOT_FOUND);
+    const album = await this.albumsService.getAlbum(id);
+    if (!album) {
+      throw new HttpException(`Album doesn't exist`, HttpStatus.NOT_FOUND);
     }
 
+    await this.albumsService.resetTracksAlbumId(id);
+    await this.favoritesService.deleteAlbumFromFavorites(id);
     await this.albumsService.deleteAlbum(id);
   }
 }

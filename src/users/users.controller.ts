@@ -10,43 +10,40 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { ReturnUser } from './types/return-user.type';
 import { UpdatePasswordDto } from './dto/update-password.dto';
-import { excludePasswordFromUser } from '../utils/excludePasswordFromUser';
+import User from './interfaces/user.interface';
+import { ExcludePasswordInterceptor } from '../interceptors/exclude-password.interceptor';
 
+@UseInterceptors(ExcludePasswordInterceptor)
 @Controller('user')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
+
   @HttpCode(HttpStatus.OK)
   @Get()
-  async getAllUsers(): Promise<ReturnUser[]> {
-    const users = await this.userService.getAllUsers();
-
-    return users.map((user) => excludePasswordFromUser(user));
+  async getAllUsers(): Promise<User[]> {
+    return await this.userService.getAllUsers();
   }
 
   @HttpCode(HttpStatus.OK)
   @Get(':id')
-  async getUser(
-    @Param('id', new ParseUUIDPipe()) id: string,
-  ): Promise<ReturnUser> {
+  async getUser(@Param('id', new ParseUUIDPipe()) id: string): Promise<User> {
     const user = await this.userService.getUser(id);
     if (!user) {
       throw new HttpException(`User doesn't exist`, HttpStatus.NOT_FOUND);
     }
 
-    return excludePasswordFromUser(user);
+    return user;
   }
 
   @HttpCode(HttpStatus.CREATED)
   @Post()
-  async createUser(@Body() createUserDto: CreateUserDto): Promise<ReturnUser> {
-    const user = await this.userService.createUser(createUserDto);
-
-    return excludePasswordFromUser(user);
+  async createUser(@Body() createUserDto: CreateUserDto): Promise<User> {
+    return await this.userService.createUser(createUserDto);
   }
 
   @HttpCode(HttpStatus.OK)
@@ -54,7 +51,7 @@ export class UsersController {
   async updatePassword(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updatePasswordDto: UpdatePasswordDto,
-  ): Promise<ReturnUser> {
+  ): Promise<User> {
     const { oldPassword, newPassword } = updatePasswordDto;
     const user = await this.userService.getUser(id);
     if (!user) {
@@ -65,13 +62,7 @@ export class UsersController {
       throw new HttpException(`Old password is wrong`, HttpStatus.FORBIDDEN);
     }
 
-    const updatedUser = await this.userService.updatePassword(
-      id,
-      newPassword,
-      user.version,
-    );
-
-    return excludePasswordFromUser(updatedUser);
+    return await this.userService.updatePassword(id, newPassword, user.version);
   }
 
   @HttpCode(HttpStatus.NO_CONTENT)

@@ -10,19 +10,19 @@ export default class DBUsers extends DBEntity<
   UpdateUserDto,
   CreateUserDto
 > {
-  constructor() {
-    super();
-    this.entities = [
-      {
-        id: 'b018b96f-0f27-4327-8e06-ca0e4be11c37',
-        login: 'login',
-        password: 'password',
-        version: 1,
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-      },
-    ];
-  }
+  // constructor() {
+  //   super();
+  //   this.entities = [
+  //     {
+  //       id: 'b018b96f-0f27-4327-8e06-ca0e4be11c37',
+  //       login: 'login',
+  //       password: 'password',
+  //       version: 1,
+  //       createdAt: Date.now(),
+  //       updatedAt: Date.now(),
+  //     },
+  //   ];
+  // }
   async create(dto: CreateUserDto) {
     const created: User = {
       id: uuid.v4(),

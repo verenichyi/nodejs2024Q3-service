@@ -9,16 +9,16 @@ export default class DBArtists extends DBEntity<
   UpdateArtistDto,
   CreateArtistDto
 > {
-  constructor() {
-    super();
-    this.entities = [
-      {
-        id: 'b018b96f-0f27-4327-8e06-ca0e4be11c37',
-        name: 'name',
-        grammy: false,
-      },
-    ];
-  }
+  // constructor() {
+  //   super();
+  //   this.entities = [
+  //     {
+  //       id: 'b018b96f-0f27-4327-8e06-ca0e4be11c37',
+  //       name: 'name',
+  //       grammy: false,
+  //     },
+  //   ];
+  // }
   async create(dto: CreateArtistDto) {
     const created: Artist = {
       id: uuid.v4(),

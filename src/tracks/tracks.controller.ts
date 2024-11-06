@@ -15,10 +15,15 @@ import Track from './interfaces/track.interface';
 import { TracksService } from './tracks.service';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
+import { FavoritesService } from '../favorites/favorites.service';
 
 @Controller('track')
 export class TracksController {
-  constructor(private readonly tracksService: TracksService) {}
+  constructor(
+    private readonly tracksService: TracksService,
+    private readonly favoritesService: FavoritesService,
+  ) {}
+
   @HttpCode(HttpStatus.OK)
   @Get()
   async getAllTracks(): Promise<Track[]> {
@@ -65,6 +70,8 @@ export class TracksController {
     if (!track) {
       throw new HttpException(`Track doesn't exist`, HttpStatus.NOT_FOUND);
     }
+
+    await this.favoritesService.deleteTrackFromFavorites(id);
 
     await this.tracksService.deleteTrack(id);
   }

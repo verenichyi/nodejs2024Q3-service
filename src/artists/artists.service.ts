@@ -8,22 +8,40 @@ import { UpdateArtistDto } from './dto/update-artist.dto';
 export class ArtistsService {
   constructor(private database: DB) {}
   async getAllArtists(): Promise<Artist[]> {
-    return this.database.artists.findMany();
+    return await this.database.artists.findMany();
   }
 
   async getArtist(id: string): Promise<Artist> {
-    return this.database.artists.findOne({ key: 'id', equals: id });
+    return await this.database.artists.findOne({ key: 'id', equals: id });
   }
 
   async createArtist(track: CreateArtistDto): Promise<Artist> {
-    return this.database.artists.create(track);
+    return await this.database.artists.create(track);
   }
 
   async updateArtist(id: string, track: UpdateArtistDto): Promise<Artist> {
-    return this.database.artists.change(id, track);
+    return await this.database.artists.change(id, track);
   }
 
   async deleteArtist(id: string): Promise<Artist> {
-    return this.database.artists.delete(id);
+    return await this.database.artists.delete(id);
+  }
+
+  async resetTracksArtistId(id: string): Promise<void> {
+    const track = await this.database.tracks.findOne({
+      key: 'artistId',
+      equals: id,
+    });
+
+    await this.database.tracks.change(track.id, { artistId: null });
+  }
+
+  async resetAlbumsArtistId(id: string): Promise<void> {
+    const album = await this.database.albums.findOne({
+      key: 'artistId',
+      equals: id,
+    });
+
+    await this.database.albums.change(album.id, { artistId: null });
   }
 }

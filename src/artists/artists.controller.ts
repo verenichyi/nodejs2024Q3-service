@@ -15,10 +15,18 @@ import { ArtistsService } from './artists.service';
 import Artist from './interfaces/artist.interface';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
+import { FavoritesService } from '../favorites/favorites.service';
+import { AlbumsService } from '../albums/albums.service';
+import { TracksService } from '../tracks/tracks.service';
 
 @Controller('artist')
 export class ArtistsController {
-  constructor(private readonly artistsService: ArtistsService) {}
+  constructor(
+    private readonly artistsService: ArtistsService,
+    private readonly albumsService: AlbumsService,
+    private readonly tracksService: TracksService,
+    private readonly favoritesService: FavoritesService,
+  ) {}
   @HttpCode(HttpStatus.OK)
   @Get()
   async getAllArtists(): Promise<Artist[]> {
@@ -70,6 +78,9 @@ export class ArtistsController {
       throw new HttpException(`Artist doesn't exist`, HttpStatus.NOT_FOUND);
     }
 
+    await this.artistsService.resetTracksArtistId(id);
+    await this.artistsService.resetAlbumsArtistId(id);
+    await this.favoritesService.deleteArtistFromFavorites(id);
     await this.artistsService.deleteArtist(id);
   }
 }

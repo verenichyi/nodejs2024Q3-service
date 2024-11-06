@@ -1,6 +1,7 @@
 import {
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   IsUUID,
   ValidateIf,
@@ -9,12 +10,14 @@ import {
 export class UpdateAlbumDto {
   @IsNotEmpty()
   @IsString()
-  name: string;
+  name?: string;
+
   @IsNotEmpty()
   @IsNumber()
-  year: number;
+  year?: number;
+
   @ValidateIf((o) => o.artistId !== null)
   @IsNotEmpty()
   @IsUUID()
-  artistId: string | null;
+  artistId?: string | null;
 }

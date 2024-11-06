@@ -7,15 +7,15 @@ import User from './interfaces/user.interface';
 export class UsersService {
   constructor(private database: DB) {}
   async getAllUsers(): Promise<User[]> {
-    return this.database.users.findMany();
+    return await this.database.users.findMany();
   }
 
   async getUser(id: string): Promise<User> {
-    return this.database.users.findOne({ key: 'id', equals: id });
+    return await this.database.users.findOne({ key: 'id', equals: id });
   }
 
   async createUser(user: CreateUserDto): Promise<User> {
-    return this.database.users.create(user);
+    return await this.database.users.create(user);
   }
 
   async updatePassword(
@@ -23,7 +23,7 @@ export class UsersService {
     password: string,
     currentUserVersion: number,
   ): Promise<User> {
-    return this.database.users.change(id, {
+    return await this.database.users.change(id, {
       password,
       version: ++currentUserVersion,
       updatedAt: Date.now(),
@@ -31,6 +31,6 @@ export class UsersService {
   }
 
   async deleteUser(id: string): Promise<User> {
-    return this.database.users.delete(id);
+    return await this.database.users.delete(id);
   }
 }
