@@ -1,29 +1,71 @@
-import { Injectable } from '@nestjs/common';
-import DB from '../utils/DB/DB';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  Put,
+} from '@nestjs/common';
+import { AlbumsService } from './albums.service';
 import Album from './interfaces/album.interface';
-import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
+import { CreateAlbumDto } from './dto/create-album.dto';
 
-@Injectable()
-export class AlbumsService {
-  constructor(private database: DB) {}
+@Controller('album')
+export class AlbumsController {
+  constructor(private readonly albumsService: AlbumsService) {}
+  @HttpCode(HttpStatus.OK)
+  @Get()
   async getAllAlbums(): Promise<Album[]> {
-    return this.database.albums.findMany();
+    return await this.albumsService.getAllAlbums();
   }
 
-  async getAlbum(id: string): Promise<Album> {
-    return this.database.albums.findOne({ key: 'id', equals: id });
+  @HttpCode(HttpStatus.OK)
+  @Get(':id')
+  async getAlbum(@Param('id', new ParseUUIDPipe()) id: string): Promise<Album> {
+    const artist = await this.albumsService.getAlbum(id);
+    if (!artist) {
+      throw new HttpException(`Artist doesn't exist`, HttpStatus.NOT_FOUND);
+    }
+
+    return artist;
   }
 
-  async createAlbum(album: CreateAlbumDto): Promise<Album> {
-    return this.database.albums.create(album);
+  @HttpCode(HttpStatus.CREATED)
+  @Post()
+  async createAlbum(@Body() createAlbumDto: CreateAlbumDto): Promise<Album> {
+    return await this.albumsService.createAlbum(createAlbumDto);
   }
 
-  async updateAlbum(id: string, album: UpdateAlbumDto): Promise<Album> {
-    return this.database.albums.change(id, album);
+  @HttpCode(HttpStatus.OK)
+  @Put(':id')
+  async updateAlbum(
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Body() updateAlbumDto: UpdateAlbumDto,
+  ): Promise<Album> {
+    const artist = await this.albumsService.getAlbum(id);
+    if (!artist) {
+      throw new HttpException(`Artist doesn't exist`, HttpStatus.NOT_FOUND);
+    }
+
+    return await this.albumsService.updateAlbum(id, updateAlbumDto);
   }
 
-  async deleteAlbum(id: string): Promise<Album> {
-    return this.database.albums.delete(id);
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete(':id')
+  async deleteAlbum(
+    @Param('id', new ParseUUIDPipe()) id: string,
+  ): Promise<void> {
+    const artist = await this.albumsService.getAlbum(id);
+    if (!artist) {
+      throw new HttpException(`Artist doesn't exist`, HttpStatus.NOT_FOUND);
+    }
+
+    await this.albumsService.deleteAlbum(id);
   }
 }
