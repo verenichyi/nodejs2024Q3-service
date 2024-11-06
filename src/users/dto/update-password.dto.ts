@@ -1,10 +1,10 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
 export class UpdatePasswordDto {
-  @IsNotEmpty({ message: 'Password is required' })
-  @IsString({ message: 'Incorrect password' })
+  @IsNotEmpty()
+  @IsString()
   oldPassword: string;
-  @IsNotEmpty({ message: 'Password is required' })
-  @IsString({ message: 'Incorrect password' })
+  @IsNotEmpty()
+  @IsString()
   newPassword: string;
 }

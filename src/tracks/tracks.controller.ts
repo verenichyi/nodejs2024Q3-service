@@ -11,8 +11,6 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { excludePasswordFromUser } from '../utils/excludePasswordFromUser';
-import { UpdatePasswordDto } from '../users/dto/update-password.dto';
 import Track from './interfaces/track.interface';
 import { TracksService } from './tracks.service';
 import { CreateTrackDto } from './dto/create-track.dto';

@@ -2,11 +2,13 @@ import DBUsers from './entities/DBUsers';
 import DBTracks from './entities/DBTracks';
 import * as lodash from 'lodash';
 import { Injectable } from '@nestjs/common';
+import DBArtists from './entities/DBArtists';
 
 @Injectable()
 export default class DB {
   users = new DBUsers();
   tracks = new DBTracks();
+  artists = new DBArtists();
 
   constructor() {
     const deepCopyResultTrap: ProxyHandler<any> = {
