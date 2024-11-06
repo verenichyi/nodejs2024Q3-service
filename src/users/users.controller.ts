@@ -10,13 +10,12 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
-  UsePipes,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ReturnUser } from './types/return-user.type';
 import { UpdatePasswordDto } from './dto/update-password.dto';
-import { ValidationPipe } from '../pipes/validation.pipe';
+import { excludePasswordFromUser } from '../utils/excludePasswordFromUser';
 
 @Controller('user')
 export class UsersController {
@@ -24,7 +23,9 @@ export class UsersController {
   @HttpCode(HttpStatus.OK)
   @Get()
   async getAllUsers(): Promise<ReturnUser[]> {
-    return await this.userService.getAllUsers();
+    const users = await this.userService.getAllUsers();
+
+    return users.map((user) => excludePasswordFromUser(user));
   }
 
   @HttpCode(HttpStatus.OK)
@@ -37,13 +38,15 @@ export class UsersController {
       throw new HttpException(`User doesn't exist`, HttpStatus.NOT_FOUND);
     }
 
-    return user;
+    return excludePasswordFromUser(user);
   }
 
   @HttpCode(HttpStatus.CREATED)
   @Post()
   async createUser(@Body() createUserDto: CreateUserDto): Promise<ReturnUser> {
-    return await this.userService.createUser(createUserDto);
+    const user = await this.userService.createUser(createUserDto);
+
+    return excludePasswordFromUser(user);
   }
 
   @HttpCode(HttpStatus.OK)
@@ -62,7 +65,13 @@ export class UsersController {
       throw new HttpException(`Old password is wrong`, HttpStatus.FORBIDDEN);
     }
 
-    return await this.userService.updatePassword(id, newPassword, user.version);
+    const updatedUser = await this.userService.updatePassword(
+      id,
+      newPassword,
+      user.version,
+    );
+
+    return excludePasswordFromUser(updatedUser);
   }
 
   @HttpCode(HttpStatus.NO_CONTENT)
