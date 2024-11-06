@@ -15,6 +15,10 @@ export class AlbumsService {
     return await this.database.albums.findOne({ key: 'id', equals: id });
   }
 
+  async getAlbumByArtistId(id: string): Promise<Album> {
+    return await this.database.albums.findOne({ key: 'artistId', equals: id });
+  }
+
   async createAlbum(album: CreateAlbumDto): Promise<Album> {
     return await this.database.albums.create(album);
   }
@@ -25,14 +29,5 @@ export class AlbumsService {
 
   async deleteAlbum(id: string): Promise<Album> {
     return await this.database.albums.delete(id);
-  }
-
-  async resetTracksAlbumId(id: string): Promise<void> {
-    const track = await this.database.tracks.findOne({
-      key: 'albumId',
-      equals: id,
-    });
-
-    await this.database.tracks.change(track.id, { albumId: null });
   }
 }

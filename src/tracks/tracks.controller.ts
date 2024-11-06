@@ -71,7 +71,11 @@ export class TracksController {
       throw new HttpException(`Track doesn't exist`, HttpStatus.NOT_FOUND);
     }
 
-    await this.favoritesService.deleteTrackFromFavorites(id);
+    const favoriteTracksIds = this.favoritesService.getFavoriteTracksIds();
+    const isFavoriteTrack = favoriteTracksIds.find((trackId) => trackId === id);
+    if (isFavoriteTrack) {
+      await this.favoritesService.deleteTrackFromFavorites(id);
+    }
 
     await this.tracksService.deleteTrack(id);
   }

@@ -78,9 +78,24 @@ export class ArtistsController {
       throw new HttpException(`Artist doesn't exist`, HttpStatus.NOT_FOUND);
     }
 
-    await this.artistsService.resetTracksArtistId(id);
-    await this.artistsService.resetAlbumsArtistId(id);
-    await this.favoritesService.deleteArtistFromFavorites(id);
+    const track = await this.tracksService.getTrackByArtistId(id);
+    if (track) {
+      await this.tracksService.updateTrack(track.id, { artistId: null });
+    }
+
+    const album = await this.albumsService.getAlbumByArtistId(id);
+    if (album) {
+      await this.albumsService.updateAlbum(album.id, { artistId: null });
+    }
+
+    const favoriteArtistsIds = this.favoritesService.getFavoriteArtistsIds();
+    const isFavoriteArtist = favoriteArtistsIds.find(
+      (artistId) => artistId === id,
+    );
+    if (isFavoriteArtist) {
+      await this.favoritesService.deleteArtistFromFavorites(id);
+    }
+
     await this.artistsService.deleteArtist(id);
   }
 }

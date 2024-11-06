@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import DB from '../utils/DB/DB';
 import Track from './interfaces/track.interface';
-import { CreateUserDto } from '../users/dto/create-user.dto';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
 
@@ -15,6 +14,14 @@ export class TracksService {
 
   async getTrack(id: string): Promise<Track> {
     return await this.database.tracks.findOne({ key: 'id', equals: id });
+  }
+
+  async getTrackByAlbumId(id: string): Promise<Track> {
+    return await this.database.tracks.findOne({ key: 'albumId', equals: id });
+  }
+
+  async getTrackByArtistId(id: string): Promise<Track> {
+    return await this.database.tracks.findOne({ key: 'artistId', equals: id });
   }
 
   async createTrack(track: CreateTrackDto): Promise<Track> {

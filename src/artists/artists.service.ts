@@ -26,22 +26,4 @@ export class ArtistsService {
   async deleteArtist(id: string): Promise<Artist> {
     return await this.database.artists.delete(id);
   }
-
-  async resetTracksArtistId(id: string): Promise<void> {
-    const track = await this.database.tracks.findOne({
-      key: 'artistId',
-      equals: id,
-    });
-
-    await this.database.tracks.change(track.id, { artistId: null });
-  }
-
-  async resetAlbumsArtistId(id: string): Promise<void> {
-    const album = await this.database.albums.findOne({
-      key: 'artistId',
-      equals: id,
-    });
-
-    await this.database.albums.change(album.id, { artistId: null });
-  }
 }

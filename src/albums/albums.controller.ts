@@ -72,8 +72,17 @@ export class AlbumsController {
       throw new HttpException(`Album doesn't exist`, HttpStatus.NOT_FOUND);
     }
 
-    await this.albumsService.resetTracksAlbumId(id);
-    await this.favoritesService.deleteAlbumFromFavorites(id);
+    const track = await this.tracksService.getTrackByAlbumId(id);
+    if (track) {
+      await this.tracksService.updateTrack(track.id, { albumId: null });
+    }
+
+    const favoriteAlbumsIds = this.favoritesService.getFavoriteAlbumsIds();
+    const isFavoriteAlbum = favoriteAlbumsIds.find((albumId) => albumId === id);
+    if (isFavoriteAlbum) {
+      await this.favoritesService.deleteAlbumFromFavorites(id);
+    }
+
     await this.albumsService.deleteAlbum(id);
   }
 }
