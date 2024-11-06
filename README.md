@@ -22,7 +22,7 @@ npm install
 ```
 npm start
 ```
-
+>You can open in your browser OpenAPI documentation. Visit https://editor.swagger.io/ and import `docs/api.yaml` file.
 ## Testing
 
 After application running open new terminal and enter:
