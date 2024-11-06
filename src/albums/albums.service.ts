@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import DB from '../utils/DB/DB';
+import Database from '../utils/database/database';
 import Album from './interfaces/album.interface';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
 
 @Injectable()
 export class AlbumsService {
-  constructor(private database: DB) {}
+  constructor(private database: Database) {}
   async getAllAlbums(): Promise<Album[]> {
     return await this.database.albums.findMany();
   }

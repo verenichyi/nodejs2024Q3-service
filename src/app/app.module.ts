@@ -5,7 +5,7 @@ import { ArtistsModule } from '../artists/artists.module';
 import { TracksModule } from '../tracks/tracks.module';
 import { AlbumsModule } from '../albums/albums.module';
 import { FavoritesModule } from '../favorites/favorites.module';
-import { Database } from '../utils/DB/database.module';
+import { Database } from '../utils/database/database.module';
 
 @Module({
   controllers: [],

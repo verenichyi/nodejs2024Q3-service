@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import DB from '../utils/DB/DB';
+import Database from '../utils/database/database';
 import Track from './interfaces/track.interface';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
 
 @Injectable()
 export class TracksService {
-  constructor(private database: DB) {}
+  constructor(private database: Database) {}
 
   async getAllTracks(): Promise<Track[]> {
     return await this.database.tracks.findMany();

@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import DB from '../utils/DB/DB';
+import Database from '../utils/database/database';
 import User from './interfaces/user.interface';
 
 @Injectable()
 export class UsersService {
-  constructor(private database: DB) {}
+  constructor(private database: Database) {}
   async getAllUsers(): Promise<User[]> {
     return await this.database.users.findMany();
   }

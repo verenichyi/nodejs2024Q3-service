@@ -7,7 +7,7 @@ import DBAlbums from './entities/DBAlbums';
 import DBFavs from './entities/DBFavs';
 
 @Injectable()
-export default class DB {
+export default class Database {
   users = new DBUsers();
   tracks = new DBTracks();
   artists = new DBArtists();

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import DB from '../utils/DB/DB';
+import Database from '../utils/database/database';
 import FavoritesResponse from './interfaces/favorites-response.interface';
 import Album from '../albums/interfaces/album.interface';
 import Track from '../tracks/interfaces/track.interface';
@@ -7,7 +7,7 @@ import Artist from '../artists/interfaces/artist.interface';
 
 @Injectable()
 export class FavoritesService {
-  constructor(private database: DB) {}
+  constructor(private database: Database) {}
   async getAllFavorites(): Promise<FavoritesResponse> {
     const favArtists = await this.getFavoriteArtists();
     const favAlbums = await this.getFavoriteAlbums();
