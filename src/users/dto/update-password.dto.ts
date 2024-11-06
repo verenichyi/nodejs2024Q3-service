@@ -1,4 +1,10 @@
-export default interface UpdatePasswordDto {
-  oldPassword: string; // previous password
-  newPassword: string; // new password
+import { IsNotEmpty, IsString } from 'class-validator';
+
+export class UpdatePasswordDto {
+  @IsNotEmpty({ message: 'Password is required' })
+  @IsString({ message: 'Incorrect password' })
+  oldPassword: string;
+  @IsNotEmpty({ message: 'Password is required' })
+  @IsString({ message: 'Incorrect password' })
+  newPassword: string;
 }
