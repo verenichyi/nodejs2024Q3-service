@@ -1,9 +1,12 @@
 services:
   app:
+    #### Local image ####
     build:
       context: .
       dockerfile: Dockerfile
     container_name: nodejs2024Q3-service
+    #### Remote image ####
+    #image: verenichyi/nodejs2024q3-service-app:latest
     environment:
       - PORT=${PORT}
     ports:
@@ -13,6 +16,8 @@ services:
     volumes:
       - ./src:/home/node/src
     restart: on-failure
+    networks:
+      - home-library
 
   db:
     container_name: postgres_container
@@ -30,3 +35,9 @@ services:
     volumes:
       - /var/lib/postgresql/data/pgdata
     restart: always
+    networks:
+      - home-library
+
+networks:
+  home-library:
+    driver: bridge
