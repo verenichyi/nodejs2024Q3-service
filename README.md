@@ -15,7 +15,7 @@ git clone git@github.com:verenichyi/nodejs2024Q3-service.git
 ## Installing NPM modules
 
 ```
-npm i --force
+npm i
 ```
 
 ## Rename .env.example to .env
