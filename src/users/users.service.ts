@@ -26,17 +26,14 @@ export class UsersService {
 
   async createUser(user: CreateUserDto): Promise<User> {
     const { login, password } = user;
-    const now = Date.now();
 
     const newUser = this.userRepository.create({
       login: login,
       password: password,
       version: 1,
-      createdAt: now,
-      updatedAt: now,
     });
-
-    await this.userRepository.save(user);
+    console.log(newUser);
+    await this.userRepository.save(newUser);
     return newUser;
   }
 
@@ -52,7 +49,7 @@ export class UsersService {
     }
 
     user.password = newPassword;
-    user.updatedAt = Date.now();
+    user.updatedAt = new Date();
     user.version++;
 
     await this.userRepository.save(user);

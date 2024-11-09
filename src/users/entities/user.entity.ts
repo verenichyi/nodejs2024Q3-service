@@ -2,14 +2,16 @@ import { Exclude } from 'class-transformer';
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
   ValueTransformer,
 } from 'typeorm';
 
-const bigint: ValueTransformer = {
-  to: (entityValue: number) => entityValue.toString(),
-  from: (databaseValue: string): number => parseInt(databaseValue, 10),
+const dateToNumber: ValueTransformer = {
+  to: (value: Date): Date => value,
+  from: (value: Date): number => value.getTime(),
 };
 
 @Entity()
@@ -21,15 +23,14 @@ export class User extends BaseEntity {
   login!: string;
 
   @Column()
-  @Exclude()
   password!: string;
 
   @Column()
   version!: number;
 
-  @Column({ type: 'bigint', transformer: bigint })
-  createdAt!: number;
+  @CreateDateColumn({ type: 'timestamp', transformer: dateToNumber })
+  createdAt!: Date;
 
-  @Column({ type: 'bigint', transformer: bigint })
-  updatedAt!: number;
+  @UpdateDateColumn({ type: 'timestamp', transformer: dateToNumber })
+  updatedAt!: Date;
 }

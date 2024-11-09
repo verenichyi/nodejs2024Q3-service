@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   HttpCode,
-  HttpException,
   HttpStatus,
   Param,
   ParseUUIDPipe,
@@ -15,8 +14,8 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
-import User from './interfaces/user.interface';
 import { ExcludePasswordInterceptor } from '../interceptors/exclude-password.interceptor';
+import { User } from './entities/user.entity';
 
 @UseInterceptors(ExcludePasswordInterceptor)
 @Controller('user')
@@ -38,7 +37,7 @@ export class UsersController {
   @HttpCode(HttpStatus.CREATED)
   @Post()
   async createUser(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return await this.userService.createUser(createUserDto);
+    return this.userService.createUser(createUserDto);
   }
 
   @HttpCode(HttpStatus.OK)
