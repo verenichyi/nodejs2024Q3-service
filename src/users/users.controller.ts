@@ -26,18 +26,13 @@ export class UsersController {
   @HttpCode(HttpStatus.OK)
   @Get()
   async getAllUsers(): Promise<User[]> {
-    return await this.userService.getAllUsers();
+    return this.userService.getAllUsers();
   }
 
   @HttpCode(HttpStatus.OK)
   @Get(':id')
   async getUser(@Param('id', new ParseUUIDPipe()) id: string): Promise<User> {
-    const user = await this.userService.getUser(id);
-    if (!user) {
-      throw new HttpException(`User doesn't exist`, HttpStatus.NOT_FOUND);
-    }
-
-    return user;
+    return this.userService.getUser(id);
   }
 
   @HttpCode(HttpStatus.CREATED)
@@ -52,17 +47,7 @@ export class UsersController {
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updatePasswordDto: UpdatePasswordDto,
   ): Promise<User> {
-    const { oldPassword, newPassword } = updatePasswordDto;
-    const user = await this.userService.getUser(id);
-    if (!user) {
-      throw new HttpException(`User doesn't exist`, HttpStatus.NOT_FOUND);
-    }
-
-    if (user.password !== oldPassword) {
-      throw new HttpException(`Old password is wrong`, HttpStatus.FORBIDDEN);
-    }
-
-    return await this.userService.updatePassword(id, newPassword, user.version);
+    return this.userService.updatePassword(id, updatePasswordDto);
   }
 
   @HttpCode(HttpStatus.NO_CONTENT)
@@ -70,11 +55,6 @@ export class UsersController {
   async deleteUser(
     @Param('id', new ParseUUIDPipe()) id: string,
   ): Promise<void> {
-    const user = await this.userService.getUser(id);
-    if (!user) {
-      throw new HttpException(`User doesn't exist`, HttpStatus.NOT_FOUND);
-    }
-
     await this.userService.deleteUser(id);
   }
 }

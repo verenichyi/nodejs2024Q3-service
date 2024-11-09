@@ -5,8 +5,9 @@ RUN mkdir -p /home/node
 WORKDIR /home/node
 
 COPY --chown=node:node package*.json ./
-
-RUN npm i && npm cache clean --force && rm -rf /tmp/*
+RUN npm i --force
+RUN npm cache clean --force
+RUN rm -rf /tmp/*
 
 COPY --chown=node:node . .
 
