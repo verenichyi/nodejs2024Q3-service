@@ -1,9 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { CreateTrackDto } from "./dto/create-track.dto";
-import { UpdateTrackDto } from "./dto/update-track.dto";
-import { Track } from "./entities/track.entity";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { CreateTrackDto } from './dto/create-track.dto';
+import { UpdateTrackDto } from './dto/update-track.dto';
+import { Track } from './entities/track.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class TracksService {
@@ -72,7 +72,10 @@ export class TracksService {
   }
 
   async getFavoriteTracks(): Promise<Track[]> {
-    return this.trackRepository.find({ where: { isFavorite: true } });
+    return this.trackRepository.find({
+      where: { isFavorite: true },
+      select: ['id', 'name', 'albumId', 'artistId', 'duration'],
+    });
   }
 
   async addFavoriteTrack(id: string): Promise<void> {

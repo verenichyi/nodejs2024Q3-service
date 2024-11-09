@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { excludeFieldFromObj } from '../utils/excludePasswordFromUser';
+import { excludeFieldFromObj } from '../utils/excludeFieldFromObject';
 
 type Response<T> = Omit<T, 'password'> | Omit<T, 'password'>[];
 

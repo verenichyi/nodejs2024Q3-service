@@ -68,7 +68,10 @@ export class ArtistsService {
   }
 
   async getFavoriteArtists(): Promise<Artist[]> {
-    return this.artistRepository.find({ where: { isFavorite: true } });
+    return this.artistRepository.find({
+      where: { isFavorite: true },
+      select: ['id', 'name', 'grammy'],
+    });
   }
 
   async addFavoriteArtist(id: string): Promise<void> {

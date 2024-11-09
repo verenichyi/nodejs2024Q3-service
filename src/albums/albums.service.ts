@@ -67,7 +67,10 @@ export class AlbumsService {
   }
 
   async getFavoriteAlbums(): Promise<Album[]> {
-    return this.albumRepository.find({ where: { isFavorite: true } });
+    return this.albumRepository.find({
+      where: { isFavorite: true },
+      select: ['id', 'name', 'year', 'artistId'],
+    });
   }
 
   async addFavoriteAlbum(id: string): Promise<void> {
