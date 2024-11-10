@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
-import { Artist } from './entities/artist.entity';
+import { Artist } from '../../entities/artist.entity';
 import { TracksService } from '../tracks/tracks.service';
 import { AlbumsService } from '../albums/albums.service';
 
@@ -54,15 +54,15 @@ export class ArtistsService {
   async deleteArtist(id: string): Promise<void> {
     const artist = await this.getArtist(id);
 
-    const track = await this.tracksService.getTrackByArtistId(id);
-    if (track) {
-      await this.tracksService.updateTrack(track.id, { artistId: null });
-    }
-
-    const album = await this.albumsService.getAlbumByArtistId(id);
-    if (album) {
-      await this.albumsService.updateAlbum(album.id, { artistId: null });
-    }
+    // const track = await this.tracksService.getTrackByArtistId(id);
+    // if (track) {
+    //   await this.tracksService.updateTrack(track.id, { artistId: null });
+    // }
+    //
+    // const album = await this.albumsService.getAlbumByArtistId(id);
+    // if (album) {
+    //   await this.albumsService.updateAlbum(album.id, { artistId: null });
+    // }
 
     await this.artistRepository.delete({ id: artist.id });
   }

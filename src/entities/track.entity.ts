@@ -1,6 +1,14 @@
 import { IsNotEmpty, IsNumber, IsString, ValidateIf } from 'class-validator';
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { Exclude } from "class-transformer";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Exclude } from 'class-transformer';
+import { Album } from './album.entity';
 
 @Entity()
 export class Track extends BaseEntity {
@@ -17,10 +25,18 @@ export class Track extends BaseEntity {
   @ValidateIf((object, value) => value !== null)
   artistId: string | null;
 
+  @OneToOne(() => Album, { onDelete: 'SET NULL' })
+  @JoinColumn()
+  artist: Album;
+
   @Column({ nullable: true })
   @IsString()
   @ValidateIf((object, value) => value !== null)
   albumId: string | null;
+
+  @OneToOne(() => Album, { onDelete: 'SET NULL' })
+  @JoinColumn()
+  album: Album;
 
   @Column()
   @IsNumber()

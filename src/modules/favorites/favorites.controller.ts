@@ -9,7 +9,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { FavoritesService } from './favorites.service';
-import { FavEntities } from './entities/fav.entity';
+import { FavEntities } from '../../entities/fav.entity';
 
 @Controller('favs')
 export class FavoritesController {

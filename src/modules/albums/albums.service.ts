@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
-import { Album } from './entities/album.entity';
+import { Album } from '../../entities/album.entity';
 import { TracksService } from '../tracks/tracks.service';
 
 @Injectable()
@@ -58,10 +58,10 @@ export class AlbumsService {
   async deleteAlbum(id: string): Promise<void> {
     const album = await this.getAlbum(id);
 
-    const track = await this.tracksService.getTrackByAlbumId(id);
-    if (track) {
-      await this.tracksService.updateTrack(track.id, { albumId: null });
-    }
+    // const track = await this.tracksService.getTrackByAlbumId(id);
+    // if (track) {
+    //   await this.tracksService.updateTrack(track.id, { albumId: null });
+    // }
 
     await this.albumRepository.delete({ id: album.id });
   }

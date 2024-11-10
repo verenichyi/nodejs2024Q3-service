@@ -1,7 +1,7 @@
 import { IsUUID } from 'class-validator';
-import { Artist } from '../../artists/entities/artist.entity';
-import { Album } from '../../albums/entities/album.entity';
-import { Track } from '../../tracks/entities/track.entity';
+import { Artist } from './artist.entity';
+import { Album } from './album.entity';
+import { Track } from './track.entity';
 
 export class Fav {
   @IsUUID('4', { each: true })
@@ -28,7 +28,7 @@ export class FavEntities {
   @IsUUID('4', { each: true })
   tracks: Track[];
 
-  constructor(partial: Partial<Fav>) {
+  constructor(partial: Partial<FavEntities>) {
     Object.assign(this, partial);
   }
 }

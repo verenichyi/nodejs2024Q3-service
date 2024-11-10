@@ -2,10 +2,10 @@ import { DataSourceOptions } from 'typeorm';
 
 import 'dotenv/config';
 
-import { User } from '../users/entities/user.entity';
-import { Artist } from '../artists/entities/artist.entity';
-import { Album } from '../albums/entities/album.entity';
-import { Track } from '../tracks/entities/track.entity';
+import { User } from '../entities/user.entity';
+import { Artist } from '../entities/artist.entity';
+import { Album } from '../entities/album.entity';
+import { Track } from '../entities/track.entity';
 import { Migration1711301298546 } from './migrations/1711301298546-Migration';
 
 const { DB_HOST, DB_HOST_DOCKER, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME } =

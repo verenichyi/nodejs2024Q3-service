@@ -4,7 +4,7 @@ import { AlbumsService } from './albums.service';
 import { TracksModule } from '../tracks/tracks.module';
 import { FavoritesModule } from '../favorites/favorites.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Album } from './entities/album.entity';
+import { Album } from '../../entities/album.entity';
 
 @Module({
   controllers: [AlbumsController],

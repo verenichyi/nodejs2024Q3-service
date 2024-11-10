@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { FavEntities } from './entities/fav.entity';
+import { FavEntities } from '../../entities/fav.entity';
 import { ArtistsService } from '../artists/artists.service';
 import { AlbumsService } from '../albums/albums.service';
 import { TracksService } from '../tracks/tracks.service';

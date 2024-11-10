@@ -14,8 +14,8 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
-import { ExcludePasswordInterceptor } from '../interceptors/exclude-password.interceptor';
-import { User } from './entities/user.entity';
+import { ExcludePasswordInterceptor } from '../../interceptors/exclude-password.interceptor';
+import { User } from '../../entities/user.entity';
 
 @UseInterceptors(ExcludePasswordInterceptor)
 @Controller('user')

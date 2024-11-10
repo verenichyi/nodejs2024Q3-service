@@ -13,7 +13,7 @@ import {
 import { AlbumsService } from './albums.service';
 import { UpdateAlbumDto } from './dto/update-album.dto';
 import { CreateAlbumDto } from './dto/create-album.dto';
-import { Album } from './entities/album.entity';
+import { Album } from '../../entities/album.entity';
 
 @Controller('album')
 export class AlbumsController {
