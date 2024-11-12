@@ -1,10 +1,10 @@
 services:
   app:
-    #image: verenichyi/nodejs2024q3-service-app:latest
+    image: verenichyi/nodejs2024q3-service-app:latest
     container_name: nodejs2024Q3-service-app
-    build:
-      context: .
-      dockerfile: Dockerfile
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
     environment:
       - PORT=${PORT}
     ports:
@@ -13,18 +13,17 @@ services:
       - db
     volumes:
       - ./src:/home/node/src
-      - /home/node/src/node_modules
     restart: unless-stopped
     networks:
       - home-library
     command: npm run start:dev
 
   db:
-    #image: verenichyi/nodejs2024q3-service-database:latest
-    container_name: nodejs2024Q3-service-database
-    build:
-      dockerfile: Dockerfile.database
-      context: .
+    image: verenichyi/nodejs2024q3-service-db:latest
+    container_name: nodejs2024Q3-service-db
+#    build:
+#      dockerfile: Dockerfile.database
+#      context: .
     environment:
       - POSTGRES_PORT=${DB_PORT}
       - POSTGRES_DB=${DB_NAME}

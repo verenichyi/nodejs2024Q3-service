@@ -27,7 +27,8 @@
     "migration:create": "npm run typeorm migration:create -- -p ./src/database/migrations",
     "migration:up": "npm run typeorm migration:run",
     "migration:down": "npm run typeorm migration:revert",
-    "start:docker": "npm run migration:generate && npm run migration:up && npm run start:dev"
+    "start:docker": "docker compose up",
+    "start:docker-detached": "docker compose up -d"
   },
   "dependencies": {
     "@nestjs/common": "^10.4.7",
