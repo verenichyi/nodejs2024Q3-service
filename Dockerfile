@@ -11,6 +11,4 @@ RUN rm -rf /tmp/*
 
 COPY --chown=node:node . .
 
-EXPOSE ${PORT}
-
 CMD [ "npm", "run", "start:dev" ]
