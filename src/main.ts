@@ -5,10 +5,14 @@ import { SwaggerModule } from '@nestjs/swagger';
 import { parse as parseYAML } from 'yaml';
 import { AppModule } from './app/app.module';
 import { ValidationPipe } from './pipes/validation.pipe';
+import { LoggingService } from './logging/logging.service';
 
 async function bootstrap() {
   const PORT = process.env.PORT || 4000;
   const app = await NestFactory.create(AppModule);
+
+  const logger = app.get(LoggingService);
+  app.useLogger(logger);
 
   app.useGlobalPipes(new ValidationPipe());
 

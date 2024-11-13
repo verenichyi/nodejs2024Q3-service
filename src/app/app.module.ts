@@ -7,6 +7,7 @@ import { TracksModule } from '../modules/tracks/tracks.module';
 import { AlbumsModule } from '../modules/albums/albums.module';
 import { FavoritesModule } from '../modules/favorites/favorites.module';
 import { typeOrmAsyncConfig } from '../database/typeorm-config';
+import { LoggingModule } from '../logging/logging.module';
 
 @Module({
   controllers: [],
@@ -21,6 +22,7 @@ import { typeOrmAsyncConfig } from '../database/typeorm-config';
     TracksModule,
     AlbumsModule,
     FavoritesModule,
+    LoggingModule,
   ],
 })
 export class AppModule {}
