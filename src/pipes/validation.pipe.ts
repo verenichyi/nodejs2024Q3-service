@@ -28,8 +28,10 @@ export class ValidationPipe implements PipeTransform<any> {
       throw new HttpException(
         {
           statusCode: HttpStatus.BAD_REQUEST,
-          message,
+          message: 'Validation failed',
+          errors: message,
           error: 'Bad Request',
+          timestamp: new Date().toISOString(),
         },
         HttpStatus.BAD_REQUEST,
       );

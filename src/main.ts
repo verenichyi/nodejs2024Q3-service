@@ -6,6 +6,7 @@ import { parse as parseYAML } from 'yaml';
 import { AppModule } from './app/app.module';
 import { ValidationPipe } from './pipes/validation.pipe';
 import { LoggingService } from './logging/logging.service';
+import { ExceptionFilter } from './exceptions/exception.filter';
 
 async function bootstrap() {
   const PORT = process.env.PORT || 4000;
@@ -15,6 +16,7 @@ async function bootstrap() {
   app.useLogger(logger);
 
   app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalFilters(new ExceptionFilter());
 
   const file = readFileSync(pathResolve('./doc/api.yaml'), 'utf8');
   const document = parseYAML(file);
