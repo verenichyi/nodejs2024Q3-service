@@ -9,6 +9,7 @@ import { mkdir, writeFile, stat } from 'node:fs/promises';
 
 import 'dotenv/config';
 
+// Correspond to Nest.js logging levels
 enum LogLevel {
   ERROR = 'error', // index 0
   WARN = 'warn', // index 1
