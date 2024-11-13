@@ -27,7 +27,11 @@ mv .env.example .env
 ## Running application in Docker container
 
 ```
-docker compose up -d
+npm run start:docker
+```
+or
+```
+npm run start:docker-detached
 ```
 
 ## Testing
