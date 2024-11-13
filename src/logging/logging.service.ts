@@ -19,17 +19,19 @@ enum LogLevel {
 
 @Injectable()
 export class LoggingService extends ConsoleLogger {
-  constructor(
-    context: string,
-    options: ConsoleLoggerOptions,
-    private readonly logLevel: number = Number(process.env.LOG_LEVEL) || 2,
-    private readonly maxFileSizeKB: number = Number(
-      process.env.MAX_LOG_SIZE_KB,
-    ) || 10,
-    private logPrefix: number = Date.now(),
-    private readonly logDirectory: string = join(process.cwd(), 'logs'),
-  ) {
+  private readonly logLevel: number;
+  private readonly maxFileSizeKB: number;
+  private readonly logDirectory: string;
+  private logPrefix: number;
+
+  constructor(context: string, options: ConsoleLoggerOptions) {
     super(context, { ...options, logLevels: Object.values(LogLevel) });
+
+    this.logLevel = Number(process.env.LOG_LEVEL) || 2;
+    this.maxFileSizeKB = Number(process.env.MAX_LOG_SIZE_KB) || 10;
+    this.logPrefix = Date.now();
+    this.logDirectory = join(process.cwd(), 'logs');
+
     this.initProcessEvents();
   }
 
